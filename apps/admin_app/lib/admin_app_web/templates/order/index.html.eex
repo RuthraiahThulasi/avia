@@ -29,11 +29,8 @@
             <div class="form-group">
                <label class="label-heading">Sort by</label>
                <select class="form-control">
-                  <option>1</option>
-                  <option>2</option>
-                  <option>3</option>
-                  <option>4</option>
-                  <option>5</option>
+                  <option><%= link("Newest", to: order_path(@conn, :index, "pending", %{order: "newest"}))%></option>
+                  <option><%= link("Oldest", to: order_path(@conn, :index, "pending", %{order: "oldest"}))%></option>
                </select>
             </div>
             <div class="col-sm-12 p-0">
