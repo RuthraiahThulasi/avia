@@ -3,6 +3,7 @@ defmodule Snitch.Data.Model.Product do
   Product API
   """
   use Snitch.Data.Model
+  use Rummage.Ecto
 
   import Ecto.Query
   alias Ecto.Multi
@@ -36,6 +37,18 @@ defmodule Snitch.Data.Model.Product do
   def get_product_list() do
     child_product_ids = from(c in Variation, select: c.child_product_id) |> Repo.all()
     query = from(p in Product, where: p.is_active == true and p.id not in ^child_product_ids)
+    Repo.all(query)
+  end
+
+  def get_rummage_product_list(rummage_opts) do
+    {query, rummage} =
+      Product
+      |> Rummage.Ecto.rummage(rummage_opts, repo: Rummage.Ecto.Repo)
+
+    child_product_ids = from(c in Variation, select: c.child_product_id) |> Repo.all()
+
+    nquery = from(p in query, where: p.is_active == true and p.id not in ^child_product_ids)
+
     Repo.all(query)
   end
 

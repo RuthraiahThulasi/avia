@@ -10,9 +10,9 @@ defmodule AdminAppWeb.ProductController do
 
   plug(:load_resources when action in [:new, :edit])
 
-  def index(conn, _params) do
+  def index(conn, params) do
     products =
-      ProductModel.get_product_list()
+      ProductModel.get_rummage_product_list(params["rummage"])
       |> Repo.preload([:images, [variants: :images]])
 
     render(conn, "index.html", products: products)
